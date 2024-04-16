@@ -47,6 +47,7 @@
   
   
   .panel {
+    cursor: pointer;
     position: relative;
     display:flex;
     flex-direction:column;
@@ -76,19 +77,25 @@
 
   .home {
     .inner-content{
-        opacity: 0;
-        pointer-events: none;
+        content-visibility: hidden;
+        /* pointer-events: none; */
     }
   }
 
   .home.active{
     position: relative;
+  
     .logo{
         transition: all 0.5s ease;
         position: fixed;
         z-index: 100;
         top: 4rem;
         left: 4rem;
+        svg{
+          transition: all 0.5s ease;
+          width: 70px;
+          height: auto;
+        }
     }
   }
   
@@ -174,23 +181,37 @@
         display: none;
         /* border: 1px solid blue; */
         position: relative;
-        display: -ms-grid;
         display: grid;
-        -ms-grid-columns: (1fr) [ 3 ];
         grid-template-columns: repeat(3, 1fr);
         grid-gap: 80px 60px;
         margin-bottom: 100px;
-        overflow: scroll;
+        overflow: hidden;
 
-
+        img{
+          /* top: 0; */
+          /* position: absolute; */
+          display: none;
+          opacity: 0;
+          transition: content-visibility .5s;
+        }
+        img.hovered{
+          content-visibility: visible;
+          height: 450px;
+          width: 450px;
+          z-index: 999;
+          border-radius: 50%;
+          opacity: .75;
+          display: inline;
+          position: absolute;
+        }
         .dish{
-            /* border: 1px solid red; */
             display: flex;
             align-items: center;
             flex-direction: column;
             height: 200px;
             justify-content: space-around;
             text-align: center;
+ 
             .type{
                 font-size: 18px;
             }
@@ -198,13 +219,29 @@
                 font-size: 34px;
             }
             .type, .vendor{
-
                 text-decoration: none;
                 color: black;
-                
             }
         }
-    }
+      }
+      .announcement{
+        border: 1px solid black;
+        display: flex;
+        justify-content: space-evenly;
+        h3{
+          font-size: 5rem;
+          text-align: center;
+          width: 15%;
+        }
+        .emoji{
+          display: flex;
+          width: 300px;
+          height: auto;
+        }
+        .right{
+          transform: rotate(180deg)
+        }
+      }
 
 
   }
@@ -217,7 +254,7 @@
     z-index:25;
   }
   .panel.active{
-    
+      cursor: unset;
         overflow-y: scroll;
         height: 100%;
 
@@ -231,17 +268,34 @@
   }
 
   .inner-content{
-    opacity: 0;
+    content-visibility: hidden;
   }
 
   .active{
     .top, .center{
-        opacity: 0;
+      content-visibility: hidden;
     }
    
     .inner-content{
-        opacity: 1;
-        transition: opacity 1s cubic-bezier(1,.14,.76,.88);
+      animation: 1s fadeIn;
+      animation-fill-mode: forwards;
+      content-visibility: visible;
+    }
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    50%{
+      opacity: 0;
+    }
+    75%{
+      opacity: .6;
+    }
+    100% {
+      visibility: visible;
+      opacity: 1;
     }
   }
 
@@ -253,8 +307,13 @@
     .logo{
         transition: all 0.5s ease;
         position: fixed;
-        left: .5rem;
+        left: .5%;
         top: 4rem;
+        svg{
+          transition: all 0.5s ease;
+          width: 50px;
+          height: auto;
+        }
     }
 
     .inner-content{
@@ -268,30 +327,25 @@
                 color: black;
                 padding-bottom: 4px;
                 background-image: repeating-linear-gradient(-45deg,#ffb400,#ffb400 1px,transparent 0,transparent 12px),repeating-linear-gradient(45deg,#ffb400,#ffb400 1px,transparent 0,transparent 12.2px);
-                background-position: 0 103%,2px 103%;
+                background-position: 0 103%, 2px 103%;
                 background-size: 17px 10px;
                 background-repeat: repeat-x;
-                animation: .8s infinite normal animatedBackground;
-                animation-timing-function: linear
+                animation: .8s infinite normal b;
+                animation-timing-function: linear;
             }
 
-            @keyframes animatedBackground {
-                0% {
-                    background-position-x: 0,2px
-                }
-            
-                to {
-                    background-position-x: 17px,19px
-                }
-              }
+           
         }
         img{
             width: 100%;
         }
+       
     }
 
    
-
+    .market.title{
+      font-size: 100px;
+    }
     .market-details{
         display: flex;
         justify-content: space-evenly;
@@ -299,15 +353,231 @@
         .detail{
             display: flex;
             flex-direction: column;
-            align-items: center;
+          align-items: flex-start;
             width: 50%;
+            flex-wrap: wrap;
+            align-content: space-around;
             p{
                 width: 73%;
             }
         }
         img{
-            width: 330px;
-            height: 495px;
+          width: 460px;
+          height: 680px;
         }
     }
+
+    .market-info{
+     
+      .events-header{
+        margin: 0 4rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        h2{
+          text-align: center;
+          font-size: 6rem;
+          line-height: 1;
+          font-weight: 400;
+        }
+        h3{
+          font-size: 5rem;
+        }
+      }
+      .events{
+     
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        margin: 0 4rem;
+        background-image: linear-gradient(90deg,#000 50%,transparent 0),linear-gradient(90deg,#000 50%,transparent 0),linear-gradient(90deg,#000  50%,transparent 0),linear-gradient(90deg,#000 50%,transparent 0);
+        background-position: 0 0,0 100%,left 14px,0 calc(100% - 14px);
+        background-size: 24px 1px,24px 1px,24px 1px,24px 1px;
+        background-repeat: repeat-x,repeat-x,repeat-x,repeat-x;
+        animation: .8s infinite normal c;
+        animation-timing-function: linear;
+       
+        .event{
+          padding: 4rem;
+          width: 30%;
+          text-align: center;
+        }
+        #event-button{
+          font-size: 1rem;
+          z-index: 999;
+          position: absolute;
+          bottom: -20px;
+          left: 50%;
+          transform: translateX(-50%);
+          padding: 1rem 4rem;
+          background-color: #f5f5dc;
+          border: 1px solid;
+          cursor: pointer;
+          transition: all .25s;
+        }
+        #event-button:hover{
+          transition: all .25s;
+          background-color: black;
+          color: #f5f5dc;
+          cursor: pointer;
+        }
+       
+      }
+      .market-address{
+        margin: 6rem 0;
+        display: flex;
+        justify-content: space-evenly;
+
+        .address{
+          display: flex;
+        align-items: center;
+          text-align: center;
+          padding: 1px;
+          font-size: 5rem;
+          background-image: linear-gradient(90deg, #000 50%, transparent 0), linear-gradient(90deg, #000 50%, transparent 0), linear-gradient(180deg, #000 50%, transparent 0), linear-gradient(180deg, #000 50%, transparent 0);
+          background-position: 0 0, 0 100%, 0 0, 100% 0;
+          background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+          background-size: 30px 1px, 30px 1px, 1px 30px, 1px 30px;
+          animation: .4s infinite normal a;
+          animation-timing-function: linear;
+          animation-play-state: paused;
+          width: 45%;
+          img{
+            background-position: 50%;
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 100%;
+            width: 100%;
+          }
+        }
+        .address:hover{
+          animation-play-state: running;
+          cursor: pointer;
+        }
+        
+      }
+      .interested{
+        background-image: repeating-linear-gradient(-74deg, rgba(0, 0, 0, .2), rgba(0, 0, 0, .2) 1px, transparent 0, transparent 4px), repeating-linear-gradient(-74deg, rgba(0, 0, 0, .2), rgba(0, 0, 0, .2) 1px, transparent 0, transparent 4px);
+       background-position: 0 0, 0 100%;
+       background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+         background-size: 100% 12px, 100% 12px;
+         animation: none;
+        display: flex;
+        margin: 0 4rem;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin-bottom: 6rem;
+        padding: 3rem 0;
+        h2{
+          font-size: 5rem;
+          font-weight: 400;
+          margin: 0;
+        }
+        .interested-button{
+          background-color: transparent;
+          font-size: 1.5rem;
+          padding: 1rem 4rem;
+          transition: all .25s;
+        }
+       .interested-button:hover{
+          transition: all .25s;
+          background-color: black;
+          color: #f5f5dc;
+          cursor: pointer;
+        }
+        
+      }
+    }
+    footer{
+      margin-bottom: 10rem;
+      .contact-links{
+
+        display: flex;
+        margin: 0 4rem;
+        margin-bottom: 6rem;
+        justify-content: space-between;
+
+        .contact{
+          cursor: pointer;
+          padding: 4rem;
+          background-image: linear-gradient(90deg, #000 50%, transparent 0), linear-gradient(90deg, #000 50%, transparent 0), linear-gradient(180deg, #000 50%, transparent 0), linear-gradient(180deg, #000 50%, transparent 0);
+          background-position: 0 0, 0 100%, 0 0, 100% 0;
+          background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+          background-size: 30px 1px, 30px 1px, 1px 30px, 1px 30px;
+          animation: .4s infinite normal a;
+          animation-timing-function: linear;
+          animation-play-state: paused;
+          width: 30%;
+          text-align: center;
+        }
+
+        .contact:hover{
+          animation-play-state: running;
+        }
+      }
+      .newsletter{
+        margin: 0 4rem;
+        display: flex;
+        align-items: center;
+        padding: 2rem 5rem;
+        background-image: linear-gradient(90deg, #000 50%, transparent 0), linear-gradient(90deg, #000 50%, transparent 0), linear-gradient(180deg, #000 50%, transparent 0), linear-gradient(180deg, #000 50%, transparent 0);
+        background-position: 0 0, 0 100%, 0 0, 100% 0;
+        background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+        background-size: 30px 1px, 30px 1px, 1px 30px, 1px 30px;
+        animation: .4s infinite normal a;
+        animation-timing-function: linear;
+        animation-play-state: paused;
+        cursor: pointer;
+
+        h3{
+          font-size: 2rem;
+          margin: 0;
+          font-weight: 500;
+          margin-right: 2rem;
+          width: 70%;
+        }
+
+        input{
+          background-color: transparent;
+          border: 1px solid;
+          width: 100%;
+          padding: 20px 30px;
+          /* height: 50px; */
+        }
+      }
+      .newsletter:hover{
+        animation-play-state: running;
+      }
+    }
   }
+
+  @keyframes a {
+    0% {
+        background-position: 0 0,0 100%,0 0,100% 0
+    }
+
+    to {
+        background-position: 30px 0,-30px 100%,0 -30px,100% 30px
+    }
+}
+@keyframes b {
+  0% {
+      background-position-x: 0,2px
+  }
+
+  to {
+      background-position-x: 17px,19px
+  }
+}
+
+  @keyframes c {
+    0% {
+        background-position-x: 0,0
+    }
+
+    to {
+        background-position-x: 24px,-24px
+    }
+}
+
